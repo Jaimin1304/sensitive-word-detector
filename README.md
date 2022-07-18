@@ -1,2 +1,2 @@
-# Sensitive-Word-Filter
-A simple sensitive word filter based on trie, implemented in python.
+# sensitive-word-detector
+A simple sensitive word detector based on trie, implemented in python.
