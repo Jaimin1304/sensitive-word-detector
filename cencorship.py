@@ -45,13 +45,26 @@ class TrieTree:
         end_time = time()
         print(f"construction time: {end_time - start_time}")
 
-    def censor(self, text, ignore_lst=[]) -> dict:
+    def censor(self, text, ignore_chars="") -> dict:
+        # parse ignore chars file
+        try:
+            with open(ignore_chars, "r", encoding="utf-8") as f:
+                ignore_chars = f.readlines()
+                for i in range(len(ignore_chars)):
+                    ignore_chars[i] = ignore_chars[i][:-1]
+        except FileNotFoundError:
+            return {"file not found": "ignore_chars"}
+
         start_time = time()
         text = text.lower()
         result = {"passed": True, "banned_word_num": 0, "banned_words": [], "execution time": 0}
 
         head_ptr = 0
         for index, i in enumerate(text):
+            # skip the current letter if it is ignored
+            if i in ignore_chars:
+                continue
+            # teleport to the head pointer
             if index < head_ptr:
                 continue
             head_ptr = index
@@ -61,11 +74,14 @@ class TrieTree:
             while True:
                 if letter_ptr >= len(text):
                     break
+                # skip the current letter if it is ignored
+                if text[letter_ptr] in ignore_chars:
+                    letter_ptr += 1
+                    continue
                 if node_ptr.is_end:
                     result["passed"] = False
                     result["banned_word_num"] += 1
                     result["banned_words"].append([curr_word, index+1])
-                    #print("letter ptr: " + str(letter_ptr) + " " + text[letter_ptr])
                     head_ptr = letter_ptr
                     break
                 if text[letter_ptr] in node_ptr.child_dic:
@@ -85,4 +101,4 @@ if __name__ == "__main__":
     tree.construct_tree("sample_banned_words.txt")
     #tree.root.print_tree()
     print("---")
-    print(tree.censor("我妈逼我回家吃饭"))
+    print(tree.censor("现在招聘名法  () 轮 ￥￥ ^功学员", "ignored_chars.txt"))
