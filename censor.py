@@ -25,10 +25,14 @@ class TrieTree:
 
     def construct_tree(self, filename) -> None:
         start_time = time()
-        with open(filename, "r", encoding="utf-8") as f:
-            word_lst = f.readlines()
-            for i in range(len(word_lst)):
-                word_lst[i] = word_lst[i][:-1]
+        try:
+            with open(filename, "r", encoding="utf-8") as f:
+                word_lst = f.readlines()
+                for i in range(len(word_lst)):
+                    word_lst[i] = word_lst[i][:-1]
+        except FileNotFoundError:
+            print("Error: can't find 'keywords.txt'.")
+            return -1
         for i in word_lst:
             node_ptr = self.root
             for index, j in enumerate(i):
@@ -43,7 +47,7 @@ class TrieTree:
                 if index == len(i) - 1:
                     node_ptr.is_end = True
         end_time = time()
-        print(f"construction time: {end_time - start_time}")
+        print(f"construction time(s): {end_time - start_time}")
 
     def censor(self, text, ignore_chars="") -> dict:
         # parse ignore chars file
@@ -53,11 +57,11 @@ class TrieTree:
                 for i in range(len(ignore_chars)):
                     ignore_chars[i] = ignore_chars[i][:-1]
         except FileNotFoundError:
-            return {"file not found": "ignore_chars"}
+            return {"Error": "can't find 'ignored_chars.txt'."}
 
         start_time = time()
         text = text.lower()
-        result = {"passed": True, "banned_word_num": 0, "banned_words": [], "execution time": 0}
+        result = {"passed": True, "banned_word_num": 0, "banned_words": [], "execution time(s)": 0}
 
         head_ptr = 0
         for index, i in enumerate(text):
@@ -91,16 +95,32 @@ class TrieTree:
                 else:
                     break
         end_time = time()
-        result["execution time"] = end_time - start_time
+        result["execution time(s)"] = end_time - start_time
         return result
 
 
 if __name__ == "__main__":
     print("----- program start -----")
+    try:
+        with open("text.txt", "r", encoding="utf-8") as f:
+            text = f.read()
+    except FileNotFoundError:
+        print("Error: can't find 'text.txt'.")
+        k = input("----- program end -----")
+        while True:
+            k = input("")
+
+    print("--- building tree ---")
     tree = TrieTree()
-    tree.construct_tree("keywords.txt")
-    #tree.root.print_tree()
-    print("-----")
-    result = tree.censor("现在招聘名法  () 轮 ￥￥ ^功学员", "ignored_chars.txt")
+    flag = tree.construct_tree("keywords.txt")
+    if flag == -1:
+        k = input("----- program end -----")
+        while True:
+            k = input("")
+
+    print("--- results ---")
+    result = tree.censor(text, "ignored_chars.txt")
     for key, value in result.items():
         print(f"{str(key)}: {str(value)}")
+
+    k = input("----- program end -----")
