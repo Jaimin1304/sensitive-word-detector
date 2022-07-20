@@ -96,9 +96,11 @@ class TrieTree:
 
 
 if __name__ == "__main__":
-    print("---start---")
+    print("----- program start -----")
     tree = TrieTree()
-    tree.construct_tree("sample_banned_words.txt")
+    tree.construct_tree("keywords.txt")
     #tree.root.print_tree()
-    print("---")
-    print(tree.censor("现在招聘名法  () 轮 ￥￥ ^功学员", "ignored_chars.txt"))
+    print("-----")
+    result = tree.censor("现在招聘名法  () 轮 ￥￥ ^功学员", "ignored_chars.txt")
+    for key, value in result.items():
+        print(f"{str(key)}: {str(value)}")
