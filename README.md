@@ -1,25 +1,151 @@
-# sensitive-word-detector 敏感词检测器
-A simple sensitive word detector based on trie, implemented in python.\
-一个简易的python敏感词检测器，基于trie树(DFA算法)。
+# Sensitive Word Detector
+
+A simple yet powerful sensitive word detector based on a Trie tree (DFA algorithm), implemented in Python.
+
+## ✨ Features
+
+- **Efficient Detection**: Quickly identifies sensitive words in text using an optimized Trie tree structure
+- **Customizable**: Supports user-defined sensitive words and characters to ignore
+- **Flexible**: Ignores specified characters (e.g., punctuation) during detection
+- **Easy to Use**: Minimal setup required with simple text file configuration
+
+## 🚀 How to Use
+
+### Step 1: Prepare Input Files
+
+1. **Text to Detect**:  
+   Copy the text you want to check into text.txt.
+
+2. **Sensitive Words**:  
+   Add sensitive words to keywords.txt, one word per line.  
+   _(See examples in sample_banned_words.txt)_
+
+3. **Ignored Characters**:  
+   Add characters to ignore during detection to ignored_chars.txt, one character per line.  
+   _(See examples in sample_ignored_chars.txt)_
+
+   > **Note**: If you don't need to ignore any characters, leave ignored_chars.txt blank.
+
+### Step 2: Run the Program
+
+Execute the program by running:
+```bash
+python censor.py
+```
+
+Or double-click censor.exe if you have the executable version.
+
+### Step 3: View Results
+
+The results will display in the command line, including:
+- Whether the text passed the check (`passed`)
+- Number of sensitive words detected (`banned_word_num`)
+- List of detected sensitive words and their positions (`banned_words`)
+- Execution time (`execution time(s)`)
+
+## 📋 Example
+
+### Input
+- **text.txt**: `我是傻***逼`
+- **keywords.txt**: `傻逼`
+- **ignored_chars.txt**: `*`
+
+### Output
+```
+----- program start -----
+--- building tree ---
+Trie construction time(s): 0.001
+--- results ---
+passed: False
+banned_word_num: 1
+banned_words: [['傻逼', 3]]
+execution time(s): 0.002
+----- program end -----
+```
+
+## 💡 Tips
+
+- Keep input file names unchanged for proper functioning
+- For large sensitive word lists, the program may take longer to execute
+- Character encoding is UTF-8 for proper handling of various languages
+
+## 📄 License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
 
 ---
 
-## How to run 如何使用
-1. Copy the text which needs to be censored into text.txt.\
-把需要检测的文本复制进text.txt。
+# 敏感词检测器
 
-2. Copy the key words (sensitive words) into keywords.txt, one word per line. for the  format, see sample_banned_words.txt under sample_files.\
-把关键词(敏感词)复制进keywords.txt，一行一词，格式请见sample files里的sample_banned_words.txt。
+一个基于 Trie 树（DFA 算法）的简单而强大的敏感词检测器，使用 Python 实现。
 
-3. Copy the characters to be ignored into ignored_chars.txt, one character per line. for the format, see sample_ignored_chars.txt under sample_files.\
-把需要忽略的字符复制进ignored_chars.txt，一行一个字符，格式请见sample_files里的sample_ignored_chars.txt。
+## ✨ 功能特点
 
-4. Click censor.exe to run the program, and view the results in the pop-up command line interface.\
-点击censor.exe运行程序，在弹出的命令行里查看检测结果。
+- **高效检测**: 使用优化的 Trie 树结构快速识别文本中的敏感词
+- **可定制**: 支持用户自定义敏感词和需要忽略的字符
+- **灵活性**: 在检测过程中忽略指定字符（如标点符号）
+- **简单易用**: 仅需简单的文本文件配置，设置简便
 
-## Tips 小提示
-1. Don't change the names and the paths of the txt files, otherwise the program can't run normally.\
-不要改变txt文件的名字和路径，不然程序会无法正常运行。
+## 🚀 如何使用
 
-2. If you don't need to ignore characters, just leave ignored_chars.txt blank without deleting the file.\
-如果不需要忽略字符，将ignored_chars.txt留空即可，不用删除文件。
+### 步骤 1: 准备输入文件
+
+1. **待检测文本**:  
+   将需要检测的文本复制到 text.txt 文件中。
+
+2. **敏感词列表**:  
+   将敏感词添加到 keywords.txt 文件中，每行一个词。  
+   _(可参考 sample_banned_words.txt 示例)_
+
+3. **忽略字符**:  
+   将需要忽略的字符添加到 ignored_chars.txt 文件中，每行一个字符。  
+   _(可参考 sample_ignored_chars.txt 示例)_
+
+   > **提示**: 如果不需要忽略字符，可以将 ignored_chars.txt 留空。
+
+### 步骤 2: 运行程序
+
+执行程序:
+```bash
+python censor.py
+```
+
+或者如果有可执行版本，双击 censor.exe。
+
+### 步骤 3: 查看结果
+
+结果将在命令行中显示，包括：
+- 文本是否通过检测（`passed`）
+- 检测到的敏感词数量（`banned_word_num`）
+- 敏感词及其位置列表（`banned_words`）
+- 检测执行时间（`execution time(s)`）
+
+## 📋 示例
+
+### 输入
+- **text.txt**: `我是傻***逼`
+- **keywords.txt**: `傻逼`
+- **ignored_chars.txt**: `*`
+
+### 输出
+```
+----- program start -----
+--- building tree ---
+Trie construction time(s): 0.001
+--- results ---
+passed: False
+banned_word_num: 1
+banned_words: [['傻逼', 3]]
+execution time(s): 0.002
+----- program end -----
+```
+
+## 💡 小提示
+
+- 保持输入文件名称不变，以确保程序正常运行
+- 对于较大的敏感词列表，程序可能需要更长时间执行
+- 文件编码采用 UTF-8，以正确处理各种语言
+
+## 📄 许可证
+
+本项目基于 MIT 许可证开源 - 详情请参阅 LICENSE 文件。
